@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# 激活码产出（包含有效生产码，绝不能进仓库！）
+/scripts/output/
+
+# Claude 本地配置
+.claude/settings.local.json
