@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #1a1a2e;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans), "PingFang SC", "HarmonyOS Sans", system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), Menlo, monospace;
+  --font-pixel: var(--font-pixel), monospace;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+/* 像素字体工具类 */
+.font-pixel {
+  font-family: var(--font-pixel);
+  letter-spacing: 0.05em;
+}
+
+/* neobrutalism 招牌样式 */
+.neo-border {
+  border: 2px solid #1a1a2e;
+}
+
+.neo-shadow {
+  box-shadow: 4px 4px 0 #1a1a2e;
+}
+
+.neo-shadow-sm {
+  box-shadow: 2px 2px 0 #1a1a2e;
+}
+
+.neo-card {
+  border: 2px solid #1a1a2e;
+  box-shadow: 4px 4px 0 #1a1a2e;
+  background: #ffffff;
+}
+
+.neo-button {
+  border: 2px solid #1a1a2e;
+  box-shadow: 4px 4px 0 #1a1a2e;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.neo-button:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #1a1a2e;
+}
+
+.neo-button:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 #1a1a2e;
+}
