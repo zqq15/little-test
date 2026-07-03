@@ -17,35 +17,41 @@ export async function POST(req: NextRequest) {
 
     const normalized = String(code).trim().toUpperCase();
 
-    // 1. 校验激活码状态
-    const { data: codeRow, error: codeErr } = await supabaseService
-      .from("activation_codes")
-      .select("code, status, expires_at, result_token")
-      .eq("code", normalized)
-      .single();
+    // 通用密码入口跳过 activation_codes 校验
+    const accessPassword = process.env.ACCESS_PASSWORD?.toUpperCase().trim();
+    const isGeneralAccess = !!accessPassword && normalized === accessPassword;
 
-    if (codeErr || !codeRow) {
-      return NextResponse.json({ error: "激活码不存在" }, { status: 404 });
-    }
-
-    if (codeRow.result_token) {
-      return NextResponse.json({
-        ok: true,
-        alreadyCompleted: true,
-        token: codeRow.result_token,
-      });
-    }
-
-    if (codeRow.status !== "used") {
-      return NextResponse.json({ error: `激活码状态异常（${codeRow.status}）` }, { status: 410 });
-    }
-
-    if (codeRow.expires_at && new Date(codeRow.expires_at) < new Date()) {
-      await supabaseService
+    if (!isGeneralAccess) {
+      // 1. 校验激活码状态
+      const { data: codeRow, error: codeErr } = await supabaseService
         .from("activation_codes")
-        .update({ status: "expired" })
-        .eq("code", normalized);
-      return NextResponse.json({ error: "激活码已过期" }, { status: 410 });
+        .select("code, status, expires_at, result_token")
+        .eq("code", normalized)
+        .single();
+
+      if (codeErr || !codeRow) {
+        return NextResponse.json({ error: "激活码不存在" }, { status: 404 });
+      }
+
+      if (codeRow.result_token) {
+        return NextResponse.json({
+          ok: true,
+          alreadyCompleted: true,
+          token: codeRow.result_token,
+        });
+      }
+
+      if (codeRow.status !== "used") {
+        return NextResponse.json({ error: `激活码状态异常（${codeRow.status}）` }, { status: 410 });
+      }
+
+      if (codeRow.expires_at && new Date(codeRow.expires_at) < new Date()) {
+        await supabaseService
+          .from("activation_codes")
+          .update({ status: "expired" })
+          .eq("code", normalized);
+        return NextResponse.json({ error: "激活码已过期" }, { status: 410 });
+      }
     }
 
     // 2. 算分
@@ -59,7 +65,7 @@ export async function POST(req: NextRequest) {
     while (!insertOk && retry < 3) {
       const { error: insertErr } = await supabaseService.from("test_results").insert({
         token,
-        activation_code: normalized,
+        activation_code: isGeneralAccess ? null : normalized,
         persona_code: result.persona.code,
         dimension_scores: result.dimensionScores,
         answers: typedAnswers,

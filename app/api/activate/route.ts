@@ -10,6 +10,12 @@ export async function POST(req: NextRequest) {
 
     const normalized = code.trim().toUpperCase();
 
+    // 通用密码入口（方案 A：全员共用一个密码）
+    const accessPassword = process.env.ACCESS_PASSWORD?.toUpperCase().trim();
+    if (accessPassword && normalized === accessPassword) {
+      return NextResponse.json({ ok: true, accessType: "general" });
+    }
+
     const { data, error } = await supabaseService
       .from("activation_codes")
       .select("code, status, expires_at, result_token")
