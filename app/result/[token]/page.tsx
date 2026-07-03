@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import type { DimensionPercentages } from "@/lib/scoring";
-import type { Persona } from "@/content/personas";
+import { PERSONAS, type Persona } from "@/content/personas";
 import { PixelSprite } from "@/components/PixelSprite";
 import { RadarChart } from "@/components/RadarChart";
 import { DIMENSION_META, type Dimension } from "@/content/questions";
@@ -23,6 +23,7 @@ export default function ResultPage() {
   const [result, setResult] = useState<ApiResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [showDimDetails, setShowDimDetails] = useState(false);
 
   useEffect(() => {
     let aborted = false;
@@ -64,6 +65,11 @@ export default function ResultPage() {
   }
 
   const { persona, dimensionPercentages, matchScore } = result;
+
+  // 把 persona code 映射到完整 persona 对象（用于最佳拍档展示）
+  const personaByCode: Record<string, Persona> = Object.fromEntries(
+    PERSONAS.map((p) => [p.code, p])
+  );
 
   function handleCopyLink() {
     const url = window.location.href;
@@ -144,6 +150,44 @@ export default function ResultPage() {
               </div>
             ))}
           </div>
+
+          <button
+            onClick={() => setShowDimDetails((v) => !v)}
+            className="mt-6 mx-auto block text-xs text-[#6B6B7B] hover:text-[#1A1A2E] underline"
+          >
+            {showDimDetails ? "▲ 收起维度说明" : "▼ 这些维度到底在测什么？"}
+          </button>
+
+          {showDimDetails && (
+            <div className="mt-4 space-y-2 text-left">
+              {(Object.keys(dimensionPercentages) as Dimension[]).map((dim) => (
+                <div
+                  key={dim}
+                  className="border-l-2 border-[#1A1A2E] pl-3 py-1"
+                >
+                  <div className="text-sm font-bold text-[#1A1A2E]">
+                    {DIMENSION_META[dim].name}
+                    <span className="ml-2 font-pixel text-xs text-[#6B6B7B]">
+                      {dimensionPercentages[dim]}%
+                    </span>
+                  </div>
+                  <div className="text-xs text-[#6B6B7B] mt-1">
+                    {DIMENSION_META[dim].description}
+                  </div>
+                  <div className="text-xs text-[#1A1A2E] mt-1">
+                    你的倾向：
+                    <span className="font-medium">
+                      {dimensionPercentages[dim] >= 60
+                        ? DIMENSION_META[dim].rightLabel
+                        : dimensionPercentages[dim] <= 40
+                        ? DIMENSION_META[dim].leftLabel
+                        : "中性平衡"}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -295,6 +339,70 @@ export default function ResultPage() {
                 </ul>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============ 相似体质 & 最佳拍档 ============ */}
+      <section className="py-12 border-b-2 border-[#1A1A2E]">
+        <div className="max-w-3xl mx-auto px-6">
+          {/* 相似体质 */}
+          <h2 className="font-pixel text-sm text-[#1A1A2E] mb-4">
+            ◆ 相似体质的人
+          </h2>
+          <p className="text-xs text-[#6B6B7B] mb-4">
+            这些身份的人，跟你的搞钱逻辑高度同频
+          </p>
+          <div className="flex flex-wrap gap-2 mb-8">
+            {persona.celebritySame.map((c, i) => (
+              <span
+                key={i}
+                className="border-2 border-[#1A1A2E] bg-white px-3 py-1 text-sm text-[#1A1A2E]"
+                style={{ backgroundColor: getPersonaColor(persona.code) + "15" }}
+              >
+                {c}
+              </span>
+            ))}
+          </div>
+
+          {/* 最佳拍档 */}
+          <h2 className="font-pixel text-sm text-[#1A1A2E] mb-4">
+            ◆ 你的最佳拍档
+          </h2>
+          <p className="text-xs text-[#6B6B7B] mb-4">
+            搞钱路上需要补位的人，组队就找 ta
+          </p>
+          <div className="space-y-3">
+            {persona.bestMatch.map((m, i) => {
+              const match = personaByCode[m.code];
+              if (!match) return null;
+              return (
+                <div
+                  key={i}
+                  className="border-2 border-[#1A1A2E] bg-white p-4 flex gap-4 items-start shadow-[3px_3px_0_#1A1A2E]"
+                >
+                  <div
+                    className="shrink-0 w-12 h-12 flex items-center justify-center border-2 border-[#1A1A2E] text-2xl"
+                    style={{ backgroundColor: getPersonaColor(m.code) + "30" }}
+                  >
+                    {match.emoji}
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-baseline gap-2 mb-1">
+                      <span className="font-pixel text-xs text-[#6B6B7B]">
+                        {match.code}
+                      </span>
+                      <span className="font-bold text-[#1A1A2E]">
+                        {match.name}
+                      </span>
+                    </div>
+                    <p className="text-sm text-[#1A1A2E] leading-relaxed">
+                      {m.reason}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

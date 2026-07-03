@@ -164,7 +164,7 @@ export const PERSONAS: Persona[] = [
         ],
       },
     ],
-    celebritySame: ["半佛仙人", "竹白主理人", "Tim（影视飓风）", "即刻上的独立创作者"],
+    celebritySame: ["独立内容创作者", "小报童 / 知识星球的垂直作者", "B 站百大 UP 主气质", "即刻上的独立创作者"],
     bestMatch: [
       { code: "G2", reason: "资源掮客帮你变现，你专心做内容" },
       { code: "G6", reason: "技术匠人帮你搭工具/系统" },
@@ -289,7 +289,7 @@ export const PERSONAS: Persona[] = [
         ],
       },
     ],
-    celebritySame: ["校友会活跃分子", "私域团购品牌主理人", "你朋友圈最会撮合的人", "跨境选品服务商"],
+    celebritySame: ["行业社群主理人", "私域团购品牌操盘手", "朋友圈最会撮合的人", "跨境选品服务商"],
     bestMatch: [
       { code: "G1", reason: "创造者产出，你负责放大和变现" },
       { code: "G7", reason: "流量操盘手帮你做投流，你做承接" },
@@ -414,7 +414,7 @@ export const PERSONAS: Persona[] = [
         ],
       },
     ],
-    celebritySame: ["孟岩（且慢）", "杨天南", "银行理财经理转型博主", "FIRE 运动践行者"],
+    celebritySame: ["稳健派投资博主", "FIRE 运动践行者", "资产配置流派作者", "理财课程主理人"],
     bestMatch: [
       { code: "G7", reason: "流量操盘手帮你放大副业电商规模" },
       { code: "G4", reason: "执行机器帮你处理电商繁琐运营" },
@@ -539,7 +539,7 @@ export const PERSONAS: Persona[] = [
         ],
       },
     ],
-    celebritySame: ["勤奋型自由职业者", "你身边那个最靠谱的同事", "猪八戒顶级服务商"],
+    celebritySame: ["勤奋型自由职业者", "你身边那个最靠谱的同事", "猪八戒 / 甜薪客顶级服务商"],
     bestMatch: [
       { code: "G1", reason: "创造者出方案，你负责交付" },
       { code: "G2", reason: "掮客接单你交付，分润模式" },
@@ -664,7 +664,7 @@ export const PERSONAS: Persona[] = [
         ],
       },
     ],
-    celebritySame: ["粥左罗", "知识星球头部星主", "垂直社群主理人", "即刻上的高互动博主"],
+    celebritySame: ["新媒体写作训练营主理人", "知识星球头部星主", "垂直社群主理人", "即刻上的高互动博主"],
     bestMatch: [
       { code: "G1", reason: "创造者做内容底座，你做放大和变现" },
       { code: "G6", reason: "技术匠人帮你做工具/系统" },
@@ -789,7 +789,7 @@ export const PERSONAS: Persona[] = [
         ],
       },
     ],
-    celebritySame: ["Pieter Levels (levelsio)", "idoubi", "少楠（flomo）", "阮一峰"],
+    celebritySame: ["海外 Indie Hacker 玩家", "Solo Developer", "效率工具 SaaS 创始人", "技术博客长期更新者"],
     bestMatch: [
       { code: "G5", reason: "社群教主帮你做营销放大，你专心做产品" },
       { code: "G2", reason: "资源掮客帮你找客户和渠道" },
@@ -914,7 +914,7 @@ export const PERSONAS: Persona[] = [
         ],
       },
     ],
-    celebritySame: ["抖音头部 MCN 操盘手", "AI 带货玩家", "电商代运营（DP）服务商", "信息流投放代理商"],
+    celebritySame: ["短视频 MCN 操盘手", "AI 带货玩家", "电商代运营（DP）服务商", "信息流投放代理商"],
     bestMatch: [
       { code: "G3", reason: "稳健理财师帮你做资金管理，避免翻车" },
       { code: "G2", reason: "资源掮客帮你做后端承接" },
@@ -1039,7 +1039,7 @@ export const PERSONAS: Persona[] = [
         ],
       },
     ],
-    celebritySame: ["孟岩", "老钱日日谈", "数字游民博主", "独立开发被动收入玩家"],
+    celebritySame: ["被动收入玩家", "FIRE 运动践行者", "数字游民博主", "稳健派投资博主"],
     bestMatch: [
       { code: "G7", reason: "流量操盘手帮你把内容/资产放大 10 倍" },
       { code: "G4", reason: "执行机器帮你处理维护工作" },
